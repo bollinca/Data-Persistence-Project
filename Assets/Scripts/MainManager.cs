@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -72,5 +73,8 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        // modify saved data (always set high to most recent score)
+        SaveManager.highScore = m_Points;
+        HighScoreText.text = "Best Score : Name : " + SaveManager.highScore;
     }
 }
