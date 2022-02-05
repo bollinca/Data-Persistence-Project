@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using TMPro;
 
-public class SceneControl : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
     public GameObject nameInput;
 
     public void StartGame()
     {
-        SaveManager.playerName = nameInput.GetComponent<TMPro.TextMeshProUGUI>().text;
+        SaveManager.instance.currentPlayer = nameInput.GetComponent<TextMeshProUGUI>().text;
         SceneManager.LoadScene(1);
     }
+
 }
