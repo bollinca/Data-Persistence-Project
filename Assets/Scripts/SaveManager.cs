@@ -7,13 +7,10 @@ public class SaveManager : MonoBehaviour
 {
 
     public static SaveManager instance;
-   
+
     public string currentPlayer;
     public string highScorePlayer;
     public int highScore;
-
-    //public static string playerName;
-    //public static int highScore;
 
     void Awake()
     {
@@ -26,38 +23,34 @@ public class SaveManager : MonoBehaviour
         Destroy(this);
     }
 
+    // Define what data will be saved, create save "container" class
     [System.Serializable]
-    class DataHolder
+    class DataFile
     {
         public string name;
         public int score;
     }
-
+    // Saves high score data to a JSON file
     public void SaveData()
     {
-        print("RUNNING SAVE DATA");
-        DataHolder dataToFile = new DataHolder();
+        DataFile dataToFile = new DataFile();
         dataToFile.name = highScorePlayer;
         dataToFile.score = highScore;
         string jsonToFile = JsonUtility.ToJson(dataToFile);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", jsonToFile);
     }
-
+    // Loads high score data from a JSON file
     public void LoadData()
     {
         string path = Application.persistentDataPath + "/savefile.json";
         if (File.Exists(path))
         {
             string jsonFromFile = File.ReadAllText(path);
-            DataHolder dataFromFile = JsonUtility.FromJson<DataHolder>(jsonFromFile);
-            print(jsonFromFile);
+            DataFile dataFromFile = JsonUtility.FromJson<DataFile>(jsonFromFile);
 
             highScore = dataFromFile.score;
             highScorePlayer = dataFromFile.name;
-            print("DATA LOADED");
-            print("High score is " + highScore);
-            print("Best player is " + highScorePlayer);
         }
     }
 

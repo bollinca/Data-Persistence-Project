@@ -13,24 +13,22 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public Text HighScoreText;
     public GameObject GameOverText;
-    //public string currentPlayer;
 
     private bool m_Started = false;
     private int m_Points;
 
     private bool m_GameOver = false;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 
-        //if (SaveManager.highScore > 0)
-        //{
-        //    HighScoreText.text = "Best Score : " + SaveManager.playerName + " : " + SaveManager.highScore;
-        //}
+        //display high score when game is loaded up
+        if (SaveManager.instance.highScore > 0)
+        {
+            HighScoreText.text = "Best Score : " + SaveManager.instance.highScorePlayer + " : " + SaveManager.instance.highScore;
+        }
 
         int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
@@ -77,37 +75,14 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        // modify saved data
-        //if (m_Points > SaveManager.highScore)
-        //{
-        //    SaveManager.highScore = m_Points;
-        //    HighScoreText.text = "Best Score : " + SaveManager.playerName + " : " + SaveManager.highScore;
-        //    SaveManager.instance.SaveData();
-        //}
         m_GameOver = true;
         GameOverText.SetActive(true);
+        // If new high score, save high score data
         if (m_Points > SaveManager.instance.highScore)
         {
             SaveManager.instance.highScore = m_Points;
             SaveManager.instance.highScorePlayer = SaveManager.instance.currentPlayer;
             SaveManager.instance.SaveData();
         }
-        print("HIGH SCORE: " + SaveManager.instance.highScore + " Player: " + SaveManager.instance.highScorePlayer);
     }
-
-    //public void UpdateHighScore()
-    //{
-    //    if (m_Points > SaveManager.highScore)
-    //    {
-    //        SaveManager.highScore = m_Points;
-    //        SaveManager.playerName = SaveManager.instance.currentPlayer;
-    //        UpdateHighScoreDisplay();
-    //    }
-    //}
-
-    //public void UpdateHighScoreDisplay()
-    //{
-    //    HighScoreText.text = "Best Score : " + SaveManager.playerName + " : " + SaveManager.highScore;
-    //}
-
 }
